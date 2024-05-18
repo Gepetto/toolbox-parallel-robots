@@ -1,6 +1,11 @@
 import os
 import unittest
 
+import numpy as np
+import pinocchio as pin
+from numpy.linalg import norm
+from toolbox_parallel_robots import inverseConstraintKinematicsSpeed
+
 
 class TestRobotInfo(unittest.TestCase):
     # only test inverse constraint kineatics because it runs all precedent code

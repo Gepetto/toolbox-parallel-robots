@@ -6,9 +6,11 @@ Create a Tkinter interface to move some joints in the robots while satisfying th
 
 """
 
-import meshcat
 import tkinter as tk
+
+import meshcat
 import pinocchio as pin
+
 from sliders.tk_robot_sliders import SlidersFrame
 from sliders.tk_sliders_manager import SlidersManager
 
@@ -48,10 +50,10 @@ def createSlidersInterface(
     # addXYZAxisToJoints(model, visual_model, scale=scale)
 
     # * Create data
-    data = model.createData()
-    constraint_datas = [cm.createData() for cm in constraint_models]
+    # data = model.createData()
+    # constraint_datas = [cm.createData() for cm in constraint_models]
     # * Set a scale factor to handle too small and too big robots
-    scale = 1
+    # scale = 1
 
     # replaceGeomByXYZAxis(visual_model, viz, scale=scale)
     # viz.display(q0)
@@ -86,8 +88,8 @@ if __name__ == "__main__":
     # constraint_models = []
     # mot_ids_q = [model.getJointId(joint_name) for joint_name in ["FL_HAA", "FL_HFE", "FL_KFE", "FR_HAA", "FR_HFE", "FR_KFE", "HL_HAA", "HL_HFE", "HL_KFE", "HR_HAA", "HR_HFE", "HR_KFE"]]
     # * Create the visualizer
-    import pinocchio as pin
     import meshcat
+    import pinocchio as pin
 
     viz = pin.visualize.MeshcatVisualizer(model, collision_model, visual_model)
     viz.viewer = meshcat.Visualizer(zmq_url="tcp://127.0.0.1:6000")
