@@ -6,10 +6,10 @@ build-backend = "setuptools.build_meta"
 name = "toolbox-parallel-robots"
 version = "0.0.1"
 dependencies = [
-    "pin",
+  "pin"
 ]
 
 [tool.setuptools]
 packages = [
-    "toolbox_parallel_robots",
+  "toolbox_parallel_robots"
 ]
