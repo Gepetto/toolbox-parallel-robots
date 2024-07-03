@@ -9,13 +9,13 @@ Create a Tkinter interface to move some joints in the robots while satisfying th
 import meshcat
 import tkinter as tk
 import pinocchio as pin
-from toolbox_parallel_robots.sliders.util_frames import (
+from toolbox_parallel_robots.util_frames import (
     addXYZAxisToJoints,
     replaceGeomByXYZAxis,
     addXYZAxisToConstraints,
 )
-from toolbox_parallel_robots.sliders.tk_robot_sliders import SlidersFrame
-from toolbox_parallel_robots.sliders.tk_sliders_manager import SlidersManager
+from toolbox_parallel_robots.tk_robot_sliders import SlidersFrame
+from toolbox_parallel_robots.tk_sliders_manager import SlidersManager
 
 # * Interface to activate or deactivate constraints on the robot
 class CheckboxConstraintCmd:
