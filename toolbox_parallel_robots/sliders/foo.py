@@ -6,14 +6,16 @@ Create a Tkinter interface to move some joints in the robots while satisfying th
 
 """
 
-import tkinter as tk
-
 import meshcat
+import tkinter as tk
 import pinocchio as pin
-
-from sliders.tk_robot_sliders import SlidersFrame
-from sliders.tk_sliders_manager import SlidersManager
-
+from toolbox_parallel_robots.sliders.util_frames import (
+    addXYZAxisToJoints,
+    replaceGeomByXYZAxis,
+    addXYZAxisToConstraints,
+)
+from toolbox_parallel_robots.sliders.tk_robot_sliders import SlidersFrame
+from toolbox_parallel_robots.sliders.tk_sliders_manager import SlidersManager
 
 # * Interface to activate or deactivate constraints on the robot
 class CheckboxConstraintCmd:
@@ -33,10 +35,7 @@ class CheckboxConstraintCmd:
             constraint_models.remove(self.cm)
         self.project.recomputeConstraints(constraint_models)
 
-
-def createSlidersInterface(
-    model, constraint_models, visual_model, mot_ids_q, viz, q0=None
-):
+def createSlidersInterface(model, constraint_models, visual_model, mot_ids_q, viz, q0=None):
     """
     Create a Tkinter interface to move some joints in the robots while satisfying the desired closed loop constraints
     """
@@ -50,10 +49,10 @@ def createSlidersInterface(
     # addXYZAxisToJoints(model, visual_model, scale=scale)
 
     # * Create data
-    # data = model.createData()
-    # constraint_datas = [cm.createData() for cm in constraint_models]
+    data = model.createData()
+    constraint_datas = [cm.createData() for cm in constraint_models]
     # * Set a scale factor to handle too small and too big robots
-    # scale = 1
+    scale = 1
 
     # replaceGeomByXYZAxis(visual_model, viz, scale=scale)
     # viz.display(q0)
@@ -64,7 +63,7 @@ def createSlidersInterface(
     root.title("Simple Robot Sliders")
     sliders_frame = SlidersFrame(model, mot_ids_q, q0, viz)
     # Creating sliders, main projection functions are called when the sliders are moved
-    sliders_frame.createSlider(root)
+    sliders_frame.createSlider(root)  
 
     managerWindow = tk.Toplevel()
     managerWindow.bind("<Escape>", lambda ev: root.destroy())
@@ -74,13 +73,10 @@ def createSlidersInterface(
 
     root.mainloop()
 
-
 if __name__ == "__main__":
     import example_parallel_robots as epr
-
-    model, constraint_models, actuation_model, visual_model, collision_model = epr.load(
-        "digit_2legs"
-    )
+    
+    model, constraint_models, actuation_model, visual_model, collision_model = epr.load("digit_2legs")
     mot_ids_q = actuation_model.mot_ids_q
     # import example_robot_data as erd
     # robot = erd.load("solo12")
@@ -88,10 +84,10 @@ if __name__ == "__main__":
     # constraint_models = []
     # mot_ids_q = [model.getJointId(joint_name) for joint_name in ["FL_HAA", "FL_HFE", "FL_KFE", "FR_HAA", "FR_HFE", "FR_KFE", "HL_HAA", "HL_HFE", "HL_KFE", "HR_HAA", "HR_HFE", "HR_KFE"]]
     # * Create the visualizer
-    import meshcat
     import pinocchio as pin
-
-    viz = pin.visualize.MeshcatVisualizer(model, collision_model, visual_model)
+    from pinocchio.visualize import MeshcatVisualizer
+    import meshcat
+    viz = MeshcatVisualizer(model, collision_model, visual_model)
     viz.viewer = meshcat.Visualizer(zmq_url="tcp://127.0.0.1:6000")
     viz.clean()
     viz.loadViewerModel(rootNodeName="universe")

@@ -5,6 +5,7 @@ Virgile BATTO & Ludovic DE MATTEIS - April 2023
 Tools to merge and split configuration into actuated and non-actuated parts. Also contains tools to freeze joints from a model
 """
 
+import numpy as np
 import pinocchio as pin
 
 
@@ -91,7 +92,7 @@ def freezeJoints(
         reduced_constraint_models = [
             pin.RigidConstraintModel(
                 cm.type,
-                model,
+                reduced_model,
                 cm.joint1_id,
                 cm.joint1_placement,
                 cm.joint2_id,  # To the world

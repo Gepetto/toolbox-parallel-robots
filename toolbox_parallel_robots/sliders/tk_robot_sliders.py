@@ -3,13 +3,11 @@ import numpy as np
 import pinocchio as pin
 from functools import partial
 
-
 class SlidersFrame:
     """
     Create a tk.Frame and add sliders corresponding to robot joints.
     Return the tk.Frame, that must be added to the container.
     """
-
     NROW = 5  # Number of sliders per row
 
     def __init__(self, model, mot_ids_q, q0, viz):
@@ -43,7 +41,7 @@ class SlidersFrame:
     def display(self):
         q = self.getConfiguration()
         self.viz.display(q)
-
+    
     def on_slider_move(self, iq, e):
         if self.auto_refresh:
             self.display()
@@ -62,11 +60,8 @@ class SlidersFrame:
                 self.slider_vars.append(var)
                 slider_frame = tk.Frame(
                     frame,
-                    highlightbackground=(
-                        "blue"
-                        if self.rmodel.joints[j].idx_q in self.mot_ids_q
-                        else "black"
-                    ),
+                    highlightbackground=("blue" if self.rmodel.joints[j].idx_q in self.mot_ids_q
+                        else "black"),
                     highlightthickness=1,
                 )
                 row = iq // self.NROW
@@ -89,3 +84,4 @@ class SlidersFrame:
                 iq += 1
             frame.pack(side=tk.TOP)
         return frame
+

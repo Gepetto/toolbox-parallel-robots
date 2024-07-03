@@ -1,5 +1,6 @@
 import tkinter as tk
-
+import numpy as np
+import pinocchio as pin
 
 class SlidersManager:
     def __init__(self, slidersFrame, constraint_models):
@@ -16,7 +17,7 @@ class SlidersManager:
         q = self.project(qref)  # Project to get the nearest feasible configuration
         self.robotConstraintFrame.resetConfiguration(q)
         self.robotConstraintFrame.display()
-
+    
     def set_auto_refresh(self):
         self.slidersFrames.auto_refresh = self.refresh_var.get()
 
@@ -25,7 +26,7 @@ class SlidersManager:
 
     def refresh(self):
         self.slidersFrames.display()
-
+    
     def optimize(self):
         pass
 
@@ -39,12 +40,7 @@ class SlidersManager:
         button2 = tk.Button(button_frame, text="Refresh", command=self.refresh)
         button2.pack(side=tk.LEFT)
 
-        check_auto_refresh = tk.Checkbutton(
-            button_frame,
-            text="Auto Refresh",
-            command=self.set_auto_refresh,
-            var=self.refresh_var,
-        )
+        check_auto_refresh = tk.Checkbutton(button_frame, text="Auto Refresh", command=self.set_auto_refresh, var=self.refresh_var)
         check_auto_refresh.select()
         check_auto_refresh.pack(side=tk.LEFT)
 
@@ -56,3 +52,5 @@ class SlidersManager:
 
         checkbox = tk.Checkbutton(button_frame2, text="Auto Optimize")
         checkbox.pack(side=tk.LEFT)
+
+    
