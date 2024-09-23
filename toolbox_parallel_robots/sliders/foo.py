@@ -40,7 +40,7 @@ def createSlidersInterface(
     """
     if q0 is None:
         q0 = pin.neutral(model)
-    
+
     # * Create the interface
     root = tk.Tk()
     root.bind("<Escape>", lambda ev: root.destroy())
