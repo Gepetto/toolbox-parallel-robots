@@ -91,7 +91,7 @@ def freezeJoints(
         reduced_constraint_models = [
             pin.RigidConstraintModel(
                 cm.type,
-                model,
+                reduced_model,
                 cm.joint1_id,
                 cm.joint1_placement,
                 cm.joint2_id,  # To the world

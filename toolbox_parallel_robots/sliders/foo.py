@@ -6,13 +6,11 @@ Create a Tkinter interface to move some joints in the robots while satisfying th
 
 """
 
-import tkinter as tk
-
 import meshcat
+import tkinter as tk
 import pinocchio as pin
-
-from sliders.tk_robot_sliders import SlidersFrame
-from sliders.tk_sliders_manager import SlidersManager
+from toolbox_parallel_robots.tk_robot_sliders import SlidersFrame
+from toolbox_parallel_robots.tk_sliders_manager import SlidersManager
 
 
 # * Interface to activate or deactivate constraints on the robot
@@ -42,21 +40,6 @@ def createSlidersInterface(
     """
     if q0 is None:
         q0 = pin.neutral(model)
-
-    # # * Adding constraints
-    # addXYZAxisToConstraints(model, visual_model, constraint_models, scale=scale)
-
-    # # * Add frames to all joints
-    # addXYZAxisToJoints(model, visual_model, scale=scale)
-
-    # * Create data
-    # data = model.createData()
-    # constraint_datas = [cm.createData() for cm in constraint_models]
-    # * Set a scale factor to handle too small and too big robots
-    # scale = 1
-
-    # replaceGeomByXYZAxis(visual_model, viz, scale=scale)
-    # viz.display(q0)
 
     # * Create the interface
     root = tk.Tk()
@@ -88,10 +71,11 @@ if __name__ == "__main__":
     # constraint_models = []
     # mot_ids_q = [model.getJointId(joint_name) for joint_name in ["FL_HAA", "FL_HFE", "FL_KFE", "FR_HAA", "FR_HFE", "FR_KFE", "HL_HAA", "HL_HFE", "HL_KFE", "HR_HAA", "HR_HFE", "HR_KFE"]]
     # * Create the visualizer
-    import meshcat
     import pinocchio as pin
+    from pinocchio.visualize import MeshcatVisualizer
+    import meshcat
 
-    viz = pin.visualize.MeshcatVisualizer(model, collision_model, visual_model)
+    viz = MeshcatVisualizer(model, collision_model, visual_model)
     viz.viewer = meshcat.Visualizer(zmq_url="tcp://127.0.0.1:6000")
     viz.clean()
     viz.loadViewerModel(rootNodeName="universe")
