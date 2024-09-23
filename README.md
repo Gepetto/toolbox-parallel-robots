@@ -9,7 +9,18 @@ Installation instuctions are to be added.
 
 ## Run examples
 
-## Code detail
+## Contents
+* ActuationModel and ActuationData - *class for containing usefull information about the robot actuation (essentially which joints are actuated)*
+* Actuation utils - *utility functions to manipulate actuated and free joints configuration (e.g. recreate robot configuration from separated actuated and free joint configuration, extract actuated joints configuration from complete state...)*
+* Closures - *Functions to determine closed configurations based on open configuration and fixed serial joints*
+* Constraints - *Functions to compute contact constraint violation for 6D and 3D contacts* 
+* Forward Kinematics
+* Inverse Dynamics
+* Inverse Kinematics
+* Freeze Joints - *Fixes some joints and recreate the Acutation and Constraints models*
+* Jacobian - *Computes closed-loop jacobians*
+* Mounting - *Computes a mounted condiguration based on the contact constraints (internal and with the environment)
+* Projection - *Projects configuration to the closest closed-loop configuration*
 
 ## :copyright: Credits
 
