@@ -40,22 +40,7 @@ def createSlidersInterface(
     """
     if q0 is None:
         q0 = pin.neutral(model)
-
-    # # * Adding constraints
-    # addXYZAxisToConstraints(model, visual_model, constraint_models, scale=scale)
-
-    # # * Add frames to all joints
-    # addXYZAxisToJoints(model, visual_model, scale=scale)
-
-    # * Create data
-    data = model.createData()
-    constraint_datas = [cm.createData() for cm in constraint_models]
-    # * Set a scale factor to handle too small and too big robots
-    scale = 1
-
-    # replaceGeomByXYZAxis(visual_model, viz, scale=scale)
-    # viz.display(q0)
-
+    
     # * Create the interface
     root = tk.Tk()
     root.bind("<Escape>", lambda ev: root.destroy())

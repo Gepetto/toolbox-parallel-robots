@@ -81,10 +81,8 @@ def replaceGeomByXYZAxis(vm, viz, prefix="XYZ_", visible="OFF", scale=1):
     for g in vm.geometryObjects:
         if g.name[: len(prefix)] == prefix:
             print(g.name)
-            gname = viz.getViewerNodeName(g, pin.VISUAL)
+            # gname = viz.getViewerNodeName(g, pin.VISUAL)
             viz.delete(g, pin.VISUAL)
-            # gv.addXYZaxis(gname, [1., 1, 1., 1.], .01*scale, .2*scale)
-            # gv.setVisibility(gname, visible)
 
 
 def freeze(robot, indexToLock, referenceConfigurationName=None, rebuildData=True):
