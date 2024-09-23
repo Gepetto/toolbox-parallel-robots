@@ -94,8 +94,5 @@ if(BUILD_PYTHON_INTERFACE)
 
 endif(BUILD_PYTHON_INTERFACE)
 
-if(BUILD_TESTING)
-  add_subdirectory(unittest)
-endif(BUILD_TESTING)
 
 install(FILES package.xml DESTINATION share/${PROJECT_NAME})
