@@ -6,11 +6,12 @@ This module provides tools to perform loop closure on a robot model.
 It is used to get configurations that minimizes the pinocchio constraints residuals under joints configurations constraints.
 """
 
-import pinocchio as pin
-import numpy as np
-from pinocchio import casadi as caspin
-import casadi
 from warnings import warn
+
+import casadi
+import numpy as np
+import pinocchio as pin
+from pinocchio import casadi as caspin
 
 from .constraints import constraintsResidual
 

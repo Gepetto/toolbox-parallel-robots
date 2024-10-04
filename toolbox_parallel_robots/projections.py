@@ -6,10 +6,10 @@ Tools to mount a robot model, i.e. get a configuration that satisfies all contra
 Contains three methods to solve this problem, methode selection is done by setting global variables or through imports
 """
 
-import pinocchio as pin
-import numpy as np
-from pinocchio import casadi as caspin
 import casadi
+import numpy as np
+import pinocchio as pin
+from pinocchio import casadi as caspin
 from qpsolvers import solve_qp
 
 from .constraints import constraintsResidual
@@ -72,7 +72,7 @@ def configurationProjectionProximal(
     for cm in cmodels:
         constraint_dim += cm.size()
 
-    y = np.ones((constraint_dim))
+    y = np.ones(constraint_dim)
     rdata.M = np.eye(rmodel.nv) * rho
     kkt_constraint = pin.ContactCholeskyDecomposition(rmodel, cmodels)
 

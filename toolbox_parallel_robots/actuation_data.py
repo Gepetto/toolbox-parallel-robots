@@ -1,5 +1,5 @@
-import pinocchio as pin
 import numpy as np
+import pinocchio as pin
 
 
 class ActuationData:

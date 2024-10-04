@@ -1,7 +1,8 @@
 import tkinter as tk
+from functools import partial
+
 import numpy as np
 import pinocchio as pin
-from functools import partial
 
 
 class SlidersFrame:

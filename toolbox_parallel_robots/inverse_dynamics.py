@@ -5,8 +5,8 @@ Virgile BATTO & Ludovic DE MATTEIS - February 2024
 This module provides tools to perform the inverse dynamics of a closed-loop system.
 """
 
-import pinocchio as pin
 import numpy as np
+import pinocchio as pin
 from qpsolvers import solve_qp
 
 

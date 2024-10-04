@@ -5,21 +5,21 @@ Virgile BATTO & Ludovic DE MATTEIS - February 2024
 This module provides tools to perform the forward kinematics of a closed-loop system.
 """
 
-import pinocchio as pin
 import numpy as np
+import pinocchio as pin
 
 try:
-    from pinocchio import casadi as caspin
     import casadi
+    from pinocchio import casadi as caspin
 
     _WITH_CASADI = True
 except ImportError:
     _WITH_CASADI = False
-from scipy.optimize import fmin_slsqp
 from numpy.linalg import norm
+from scipy.optimize import fmin_slsqp
 
-from .constraints import constraintsResidual
 from .actuation import mergeq, mergev
+from .constraints import constraintsResidual
 
 
 def closedLoopForwardKinematicsCasadi(
