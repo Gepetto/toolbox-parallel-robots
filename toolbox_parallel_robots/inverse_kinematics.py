@@ -5,18 +5,18 @@ Ludovic DE MATTEIS & Virgile BATTO, February 2024
 Tools to compute the inverse kinematics of a closed loop system.
 """
 
-import pinocchio as pin
 import numpy as np
+import pinocchio as pin
 
 try:
-    from pinocchio import casadi as caspin
     import casadi
+    from pinocchio import casadi as caspin
 
     _WITH_CASADI = True
 except ImportError:
     _WITH_CASADI = False
-from scipy.optimize import fmin_slsqp
 from numpy.linalg import norm
+from scipy.optimize import fmin_slsqp
 
 from .constraints import constraintsResidual
 
@@ -289,7 +289,7 @@ def closedLoopInverseKinematicsProximal(
     for cm in constraint_model:
         constraint_dim += cm.size()
 
-    y = np.ones((constraint_dim))
+    y = np.ones(constraint_dim)
     data.M = np.eye(model.nv) * rho
     kkt_constraint = pin.ContactCholeskyDecomposition(model, constraint_model)
 

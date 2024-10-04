@@ -1,5 +1,5 @@
-import pinocchio as pin
 import hppfcl
+import pinocchio as pin
 
 
 def addXYZAxisToFrames(rm, vm, basename="XYZ", scale=1, world=False):

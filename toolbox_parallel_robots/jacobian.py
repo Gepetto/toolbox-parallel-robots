@@ -6,8 +6,8 @@ Tools to compute of jacobian inside closed loop
 
 """
 
-import pinocchio as pin
 import numpy as np
+import pinocchio as pin
 
 
 def separateConstraintJacobian(actuation_data, Jn):

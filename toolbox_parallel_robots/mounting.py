@@ -6,18 +6,18 @@ Tools to mount a robot model, i.e. get a configuration that satisfies all contra
 Contains three methods to solve this problem, methode selection is done by setting global variables or through imports
 """
 
-import pinocchio as pin
 import numpy as np
+import pinocchio as pin
 
 try:
-    from pinocchio import casadi as caspin
     import casadi
+    from pinocchio import casadi as caspin
 
     _WITH_CASADI = True
 except ImportError:
     _WITH_CASADI = False
-from scipy.optimize import fmin_slsqp
 from numpy.linalg import norm
+from scipy.optimize import fmin_slsqp
 
 from .constraints import constraintsResidual
 
@@ -229,7 +229,7 @@ def closedLoopMountProximal(
     for cm in cmodels:
         constraint_dim += cm.size()
 
-    y = np.ones((constraint_dim))
+    y = np.ones(constraint_dim)
     rdata.M = np.eye(rmodel.nv) * rho
     kkt_constraint = pin.ContactCholeskyDecomposition(rmodel, cmodels)
 

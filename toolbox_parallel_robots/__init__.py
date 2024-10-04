@@ -1,7 +1,7 @@
 # ruff: noqa: F401
-from .actuation_model import ActuationModel
+from .actuation import mergeq, mergev, qfree, qmot, vfree, vmot
 from .actuation_data import ActuationData
-from .actuation import qfree, qmot, vfree, vmot, mergeq, mergev
+from .actuation_model import ActuationModel
 from .closures import partialLoopClosure, partialLoopClosureFrames
 from .constraints import (
     constraintResidual,
@@ -19,14 +19,14 @@ from .inverse_dynamics import closedLoopInverseDynamicsCasadi
 from .inverse_kinematics import (
     closedLoopInverseKinematics,
     closedLoopInverseKinematicsCasadi,
-    closedLoopInverseKinematicsScipy,
     closedLoopInverseKinematicsProximal,
+    closedLoopInverseKinematicsScipy,
 )
 from .jacobian import (
-    separateConstraintJacobian,
     computeClosedLoopFrameJacobian,
     computeDerivative_dq_dqmot,
     inverseConstraintKinematicsSpeed,
+    separateConstraintJacobian,
 )
 from .mounting import (
     closedLoopMount,
@@ -35,8 +35,8 @@ from .mounting import (
     closedLoopMountScipy,
 )
 from .projections import (
+    accelerationProjection,
     configurationProjection,
     configurationProjectionProximal,
     velocityProjection,
-    accelerationProjection,
 )

@@ -6,8 +6,9 @@ Create a Tkinter interface to move some joints in the robots while satisfying th
 
 """
 
-import meshcat
 import tkinter as tk
+
+import meshcat
 import pinocchio as pin
 from toolbox_parallel_robots.tk_robot_sliders import SlidersFrame
 from toolbox_parallel_robots.tk_sliders_manager import SlidersManager
@@ -71,9 +72,9 @@ if __name__ == "__main__":
     # constraint_models = []
     # mot_ids_q = [model.getJointId(joint_name) for joint_name in ["FL_HAA", "FL_HFE", "FL_KFE", "FR_HAA", "FR_HFE", "FR_KFE", "HL_HAA", "HL_HFE", "HL_KFE", "HR_HAA", "HR_HFE", "HR_KFE"]]
     # * Create the visualizer
+    import meshcat
     import pinocchio as pin
     from pinocchio.visualize import MeshcatVisualizer
-    import meshcat
 
     viz = MeshcatVisualizer(model, collision_model, visual_model)
     viz.viewer = meshcat.Visualizer(zmq_url="tcp://127.0.0.1:6000")
