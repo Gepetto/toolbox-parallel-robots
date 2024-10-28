@@ -1,0 +1,13 @@
+{
+    "configuration": "default",
+    "documentId": "b26e49b6d17d154476907010",
+    "documentMicroversion": "7bca4f280209c256dd458918",
+    "elementId": "84dedca721bc8277aae3f074",
+    "fullConfiguration": "default",
+    "id": "MqDq9EpN+a8B400Vn",
+    "isStandardContent": false,
+    "name": "ankle_actuation <1>",
+    "partId": "JID",
+    "suppressed": false,
+    "type": "Part"
+}
