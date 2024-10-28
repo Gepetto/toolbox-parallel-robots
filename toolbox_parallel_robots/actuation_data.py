@@ -35,13 +35,13 @@ class ActuationData:
         None
     """
 
-    def __init__(self, model, constraints_models, actuation_model):
+    def __init__(self, model, constraints_models, actuation_model,root_motor=False):
 
         Lidmot = actuation_model.mot_ids_v
         free_ids_v = actuation_model.free_ids_v
         nv = model.nv
-        nv_mot = actuation_model.nv_mot
-        nv_free = actuation_model.nv_free
+        nv_mot = len(Lidmot)
+        nv_free = len(free_ids_v)
         nc = 0
 
         # Count total size of constraints
@@ -78,11 +78,15 @@ class ActuationData:
         )
 
         # init of different size of vector
+
         self.vq = np.zeros(nv)
-        self.vqmot = np.zeros(nv_mot - 6)
+        self.vqmot = np.zeros(nv_mot)
         self.vqfree = np.zeros(nv_free)
-        self.vqmotfree = np.zeros(nv - 6)
+        self.vqmotfree = np.zeros(nv)
 
         # list of constraint type
         self.constraints_sizes = [J.shape[0] for J in self.LJ]
         self.pinvJfree = np.linalg.pinv(self.Jfree)
+
+        self.Lnc=[J.shape[0] for J in self.LJ]
+        self.pinvJfree=np.linalg.pinv(self.Jfree)

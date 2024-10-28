@@ -36,7 +36,7 @@ def separateConstraintJacobian(actuation_data, Jn):
     return (Jmot, Jfree)
 
 
-def computeDerivative_dq_dqmot(actuation_model, actuation_data, LJ):
+def computeDerivative_dq_dqmot(actuation_model, actuation_data, LJ,gamma_corector=30):
     """
     Compute the derivative `dq/dqmot` of the joint to the motor joint.
 
@@ -53,22 +53,32 @@ def computeDerivative_dq_dqmot(actuation_model, actuation_data, LJ):
 
     """
 
-    mot_ids_v = actuation_model.mot_ids_v
-    free_ids_v = actuation_model.free_ids_v
-    constraints_sizes = actuation_data.constraints_sizes
-    nprec = 0
-    nv_mot = len(mot_ids_v)
+    #init of constant
+    Lidmot=actuation_model.mot_ids_v
+    Lidfree=actuation_model.free_ids_v
+    nv_mot=len(Lidmot)
+    # Lnc=[J.shape[0] for J in LJ]
+    Lnc=actuation_data.Lnc
 
-    for J, n in zip(LJ, constraints_sizes):
-        actuation_data.Jmot[nprec : nprec + n, :] = J @ actuation_data.Smot
-        actuation_data.Jfree[nprec : nprec + n, :] = J @ actuation_data.Sfree
-        nprec = nprec + n
 
-    actuation_data.pinvJfree[:, :] = np.linalg.pinv(actuation_data.Jfree)
-    actuation_data.dq_no[:nv_mot, :] = np.identity(nv_mot)
-    actuation_data.dq_no[nv_mot:, :] = -actuation_data.pinvJfree @ actuation_data.Jmot
-    actuation_data.dq[mot_ids_v] = actuation_model.dq_no[:nv_mot, :]
-    actuation_data.dq[free_ids_v] = actuation_model.dq_no[nv_mot:, :]
+    #separation between Jmot and Jfree
+    
+    nprec=0
+    
+    for J,n in zip(LJ,Lnc):
+        actuation_data.Jmot[nprec:nprec+n,:]=J@actuation_data.Smot
+        actuation_data.Jfree[nprec:nprec+n,:]=J@actuation_data.Sfree
+        nprec=nprec+n
+    # computation of dq/dqmot
+    actuation_data.pinvJfree[:,:]=np.linalg.pinv(actuation_data.Jfree)
+    actuation_data.dq_no[:nv_mot,:]=np.identity(nv_mot)
+    actuation_data.dq_no[nv_mot:,:]=-actuation_data.pinvJfree@actuation_data.Jmot
+    # actuation_model.dq_no=np.concatenate((np.identity(nv_mot),-pinvJfree@actuation_model.Jmot))
+    
+    
+    #re order dq/dqmot
+    actuation_data.dq[Lidmot]=actuation_data.dq_no[:nv_mot,:]
+    actuation_data.dq[Lidfree]=actuation_data.dq_no[nv_mot:,:]
     return actuation_data.dq
 
 
