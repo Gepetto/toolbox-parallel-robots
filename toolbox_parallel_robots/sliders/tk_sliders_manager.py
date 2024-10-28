@@ -1,6 +1,5 @@
 import tkinter as tk
-import numpy as np
-import pinocchio as pin
+
 
 class SlidersManager:
     def __init__(self, slidersFrame, constraint_models):
