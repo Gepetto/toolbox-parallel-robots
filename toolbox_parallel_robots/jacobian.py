@@ -153,9 +153,11 @@ def inverseConstraintKinematicsSpeed(
     # update of the jacobian an constraint model
     pin.computeJointJacobians(model, data, q0)
     LJ = actuation_data.LJ
-    for cm, cd, i in zip(constraint_model, constraint_data, range(len(LJ))):
+    gamma=[]
+    for cm, cd, i, nc in zip(constraint_model, constraint_data, range(len(LJ)),actuation_data.Lnc):
         LJ[i][:, :] = pin.getConstraintJacobian(model, data, cm, cd)
-
+        gamma.append(pin.log(cd.c1Mc2).np[:nc])
+    gamma=np.concatenate(gamma)*30
     # init of constant
     mot_ids_v = actuation_model.mot_ids_v
     free_ids_v = actuation_model.free_ids_v
