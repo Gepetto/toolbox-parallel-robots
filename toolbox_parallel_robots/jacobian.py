@@ -170,12 +170,14 @@ def inverseConstraintKinematicsSpeed(
         actuation_data.Jfree[nprec : nprec + n, :] = J @ actuation_data.Sfree
 
         nprec = nprec + n
-
+    
     actuation_data.pinvJfree[:, :] = np.linalg.pinv(actuation_data.Jfree)
     actuation_data.dq_no[:nv_mot, :] = np.identity(nv_mot)
     actuation_data.dq_no[nv_mot:, :] = -actuation_data.pinvJfree @ actuation_data.Jmot
-    actuation_model.dq[mot_ids_v] = actuation_model.dq_no[:nv_mot, :]
-    actuation_model.dq[free_ids_v] = actuation_model.dq_no[nv_mot:, :]
+    actuation_data.dq[mot_ids_v] = actuation_data.dq_no[:nv_mot, :]
+    actuation_data.dq[free_ids_v] = actuation_data.dq_no[nv_mot:, :]
+
+    
     # computation of the closed-loop jacobian
     actuation_data.Jf_closed[:, :] = (
         pin.computeFrameJacobian(model, data, q0, ideff, pin.LOCAL) @ actuation_data.dq
