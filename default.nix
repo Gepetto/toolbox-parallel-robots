@@ -1,4 +1,5 @@
 {
+  buildPythonPackage,
   cmake,
   lib,
   pinocchio,
@@ -6,12 +7,12 @@
   pythonImportsCheckHook,
   qpsolvers,
   scipy,
-  stdenv,
 }:
 
-stdenv.mkDerivation {
+buildPythonPackage {
   pname = "toolbox-parallel-robots";
   version = "0-unstable-2024-30-09";
+  pyproject = false;
 
   src = lib.fileset.toSource {
     root = ./.;
