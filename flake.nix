@@ -20,7 +20,7 @@
           devShells.default = pkgs.mkShell { inputsFrom = [ self'.packages.default ]; };
           packages = {
             default = self'.packages.toolbox-parallel-robots;
-            toolbox-parallel-robots = pkgs.python3Packages.toPythonModule (pkgs.callPackage ./package.nix { });
+            toolbox-parallel-robots = pkgs.python3Packages.callPackage ./default.nix { };
           };
         };
     };
