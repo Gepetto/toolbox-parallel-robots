@@ -1,12 +1,15 @@
 {
   cmake,
   lib,
+  pinocchio,
   pkg-config,
-  python3Packages,
+  pythonImportsCheckHook,
+  qpsolvers,
+  scipy,
   stdenv,
 }:
 
-stdenv.mkDerivation rec {
+stdenv.mkDerivation {
   pname = "toolbox-parallel-robots";
   version = "0-unstable-2024-30-09";
 
@@ -30,8 +33,16 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [
     cmake
     pkg-config
+    pythonImportsCheckHook
   ];
-  propagatedBuildInputs = [ python3Packages.pinocchio ];
+  propagatedBuildInputs = [
+    pinocchio
+    qpsolvers
+    scipy
+  ];
+
+  doCheck = true;
+  pythonImportsCheck = [ "toolbox_parallel_robots" ];
 
   meta = {
     description = "Set of tools to work with robots with bilateral constraints";
