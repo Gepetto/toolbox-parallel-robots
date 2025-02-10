@@ -84,13 +84,11 @@ def mergeq(model, actuation_model, q_mot, q_free):
         actuation_model (object): Robot actuation model.
         q_mot (numpy.ndarray): The actuated part of q.
         q_free (numpy.ndarray): The non-actuated part of q.
-        casadi_vals (bool, optional): Whether Casadi values are used. Defaults to False.
 
     Returns:
         numpy.ndarray: The merged articular configuration vector.
     """
-    casadi_vals = type(model) == pin.casadi.Model
-    if not casadi_vals:
+    if not isinstance(model, pin.casadi.Model):
         q = np.zeros(model.nq)
         for q_i, mot_ids_q in zip(q_mot, actuation_model.mot_ids_q):
             q[mot_ids_q] = q_i
@@ -119,13 +117,11 @@ def mergev(model, actuation_model, v_mot, v_free):
         actuation_model (object): Robot actuation model.
         v_mot (numpy.ndarray): The actuated part of v.
         v_free (numpy.ndarray): The non-actuated part of v.
-        casadi_vals (bool, optional): Set to use Casadi implementation or not. Defaults to False.
 
     Returns:
         numpy.ndarray: The merged articular velocity vector.
     """
-    casadi_vals = type(model) == pin.casadi.Model
-    if not casadi_vals:
+    if not isinstance(model, pin.casadi.Model):
         v = np.zeros(model.nv)
         for v_i, mot_ids_v in zip(v_mot, actuation_model.mot_ids_v):
             v[mot_ids_v] = v_i

@@ -1,9 +1,0 @@
-{
-    "documentId": "b26e49b6d17d154476907010",
-    "outputFormat": "urdf",
-    "assemblyName":"2_leg_soude_45",
-    "ignore":[
-        "x8_cover","foot_v2","x10_cover"
-    ]
-}
-

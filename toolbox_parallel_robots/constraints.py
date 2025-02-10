@@ -5,9 +5,9 @@ Nicolas MANSARD - Virgile BATTO & Ludovic DE MATTEIS - February 2024
 Tool functions to compute the constraints residuals from a robot constraint model.
 """
 
-import pinocchio as pin
-import numpy as np
 import casadi
+import numpy as np
+import pinocchio as pin
 
 
 ## Constraints residuals

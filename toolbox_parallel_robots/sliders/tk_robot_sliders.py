@@ -1,4 +1,6 @@
 import tkinter as tk
+from functools import partial
+
 import numpy as np
 import pinocchio as pin
 from functools import partial
@@ -66,7 +68,7 @@ class SlidersFrame:
     def display(self):
         q = self.getConfiguration()
         self.viz.display(q)
-    
+
     def on_slider_move(self, iq, e):
         if self.auto_refresh:
             self.display()
@@ -112,4 +114,3 @@ class SlidersFrame:
                     iq += 1
             frame.pack(side=tk.TOP)
         return frame
-
