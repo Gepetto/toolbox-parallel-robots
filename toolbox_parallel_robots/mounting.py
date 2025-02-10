@@ -250,9 +250,8 @@ def closedLoopMountProximal(
         primal_feas = np.linalg.norm(constraint_value, np.inf)
         dual_feas = np.linalg.norm(J.T.dot(constraint_value + y), np.inf)
         if primal_feas < eps and dual_feas < eps:
-            print("Convergence achieved")
+
             break
-        print("constraint_value:", np.linalg.norm(constraint_value))
         rhs = np.concatenate([-constraint_value - y * mu, np.zeros(rmodel.nv)])
 
         dz = kkt_constraint.solve(rhs)

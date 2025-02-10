@@ -131,6 +131,7 @@ def inverseConstraintKinematicsSpeed(
     q0,
     ideff,
     veff,
+    free_root_joint=False
 ):
     """
     vq, Jf_closed = inverseConstraintKinematicsSpeedOptimized(model, data, constraint_model, constraint_data, actuation_model, q0, ideff, veff)
@@ -177,15 +178,22 @@ def inverseConstraintKinematicsSpeed(
     actuation_data.dq[mot_ids_v] = actuation_data.dq_no[:nv_mot, :]
     actuation_data.dq[free_ids_v] = actuation_data.dq_no[nv_mot:, :]
 
-    
+
     # computation of the closed-loop jacobian
     actuation_data.Jf_closed[:, :] = (
         pin.computeFrameJacobian(model, data, q0, ideff, pin.LOCAL) @ actuation_data.dq
     )
-    actuation_data.vqmot[:] = np.linalg.pinv(actuation_data.Jf_closed) @ veff
-    actuation_data.vqfree[:] = (
-        -actuation_data.pinvJfree @ actuation_data.Jmot @ actuation_data.vqmot
-    )
+
+    if free_root_joint :
+        actuation_data.vqmot[6:] = np.linalg.pinv(actuation_data.Jf_closed[:,6:]) @ veff
+        actuation_data.vqfree[:] = (
+            -actuation_data.pinvJfree @ actuation_data.Jmot[:,6:] @ actuation_data.vqmot[6:]
+        )+actuation_data.pinvJfree@gamma
+    else : 
+        actuation_data.vqmot[:] = np.linalg.pinv(actuation_data.Jf_closed[:,:]) @ veff
+        actuation_data.vqfree[:] = (
+            -actuation_data.pinvJfree @ actuation_data.Jmot[:,:] @ actuation_data.vqmot[:]
+        )+actuation_data.pinvJfree@gamma
     # reorder of vq
     actuation_data.vqmotfree[:nv_mot] = actuation_data.vqmot
     actuation_data.vqmotfree[nv_mot:] = actuation_data.vqfree
