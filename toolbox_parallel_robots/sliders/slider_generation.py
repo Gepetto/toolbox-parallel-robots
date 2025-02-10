@@ -6,7 +6,6 @@ Create a Tkinter interface to move some joints in the robots while satisfying th
 
 """
 
-import meshcat
 import tkinter as tk
 import pinocchio as pin
 from toolbox_parallel_robots.tk_robot_sliders import SlidersFrame
@@ -15,7 +14,9 @@ from toolbox_parallel_robots.tk_sliders_manager import SlidersManager
 # * Interface to activate or deactivate constraints on the robot
 
 
-def createSlidersInterface(model, constraint_models, visual_model, mot_ids_q, viz, q0=None):
+def createSlidersInterface(
+    model, constraint_models, visual_model, mot_ids_q, viz, q0=None
+):
     """
     Create a Tkinter interface to move some joints in the robots while satisfying the desired closed loop constraints
     """
@@ -41,9 +42,9 @@ def createSlidersInterface(model, constraint_models, visual_model, mot_ids_q, vi
     root = tk.Tk()
     root.bind("<Escape>", lambda ev: root.destroy())
     root.title("Simple Robot Sliders")
-    sliders_frame = SlidersFrame(model, mot_ids_q, q0, viz,constraint_models)
+    sliders_frame = SlidersFrame(model, mot_ids_q, q0, viz, constraint_models)
     # Creating sliders, main projection functions are called when the sliders are moved
-    sliders_frame.createSlider(root)  
+    sliders_frame.createSlider(root)
 
     managerWindow = tk.Toplevel()
     managerWindow.bind("<Escape>", lambda ev: root.destroy())

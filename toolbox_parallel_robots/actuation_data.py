@@ -87,5 +87,5 @@ class ActuationData:
         self.constraints_sizes = [J.shape[0] for J in self.LJ]
         self.pinvJfree = np.linalg.pinv(self.Jfree)
 
-        self.Lnc=[J.shape[0] for J in self.LJ]
-        self.pinvJfree=np.linalg.pinv(self.Jfree)
+        self.Lnc = [J.shape[0] for J in self.LJ]
+        self.pinvJfree = np.linalg.pinv(self.Jfree)
