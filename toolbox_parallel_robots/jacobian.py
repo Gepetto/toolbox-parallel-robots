@@ -36,7 +36,7 @@ def separateConstraintJacobian(actuation_data, Jn):
     return (Jmot, Jfree)
 
 
-def computeDerivative_dq_dqmot(actuation_model, actuation_data, LJ):
+def computeDerivative_dq_dqmot(actuation_model, actuation_data, LJ, gamma_corector=30):
     """
     Compute the derivative `dq/dqmot` of the joint to the motor joint.
 
@@ -53,22 +53,30 @@ def computeDerivative_dq_dqmot(actuation_model, actuation_data, LJ):
 
     """
 
-    mot_ids_v = actuation_model.mot_ids_v
-    free_ids_v = actuation_model.free_ids_v
-    constraints_sizes = actuation_data.constraints_sizes
-    nprec = 0
-    nv_mot = len(mot_ids_v)
+    # init of constant
+    Lidmot = actuation_model.mot_ids_v
+    Lidfree = actuation_model.free_ids_v
+    nv_mot = len(Lidmot)
+    # Lnc=[J.shape[0] for J in LJ]
+    Lnc = actuation_data.Lnc
 
-    for J, n in zip(LJ, constraints_sizes):
+    # separation between Jmot and Jfree
+
+    nprec = 0
+
+    for J, n in zip(LJ, Lnc):
         actuation_data.Jmot[nprec : nprec + n, :] = J @ actuation_data.Smot
         actuation_data.Jfree[nprec : nprec + n, :] = J @ actuation_data.Sfree
         nprec = nprec + n
-
+    # computation of dq/dqmot
     actuation_data.pinvJfree[:, :] = np.linalg.pinv(actuation_data.Jfree)
     actuation_data.dq_no[:nv_mot, :] = np.identity(nv_mot)
     actuation_data.dq_no[nv_mot:, :] = -actuation_data.pinvJfree @ actuation_data.Jmot
-    actuation_data.dq[mot_ids_v] = actuation_model.dq_no[:nv_mot, :]
-    actuation_data.dq[free_ids_v] = actuation_model.dq_no[nv_mot:, :]
+    # actuation_model.dq_no=np.concatenate((np.identity(nv_mot),-pinvJfree@actuation_model.Jmot))
+
+    # re order dq/dqmot
+    actuation_data.dq[Lidmot] = actuation_data.dq_no[:nv_mot, :]
+    actuation_data.dq[Lidfree] = actuation_data.dq_no[nv_mot:, :]
     return actuation_data.dq
 
 
@@ -121,6 +129,7 @@ def inverseConstraintKinematicsSpeed(
     q0,
     ideff,
     veff,
+    free_root_joint=False,
 ):
     """
     vq, Jf_closed = inverseConstraintKinematicsSpeedOptimized(model, data, constraint_model, constraint_data, actuation_model, q0, ideff, veff)
@@ -143,9 +152,13 @@ def inverseConstraintKinematicsSpeed(
     # update of the jacobian an constraint model
     pin.computeJointJacobians(model, data, q0)
     LJ = actuation_data.LJ
-    for cm, cd, i in zip(constraint_model, constraint_data, range(len(LJ))):
+    gamma = []
+    for cm, cd, i, nc in zip(
+        constraint_model, constraint_data, range(len(LJ)), actuation_data.Lnc
+    ):
         LJ[i][:, :] = pin.getConstraintJacobian(model, data, cm, cd)
-
+        gamma.append(pin.log(cd.c1Mc2).np[:nc])
+    gamma = np.concatenate(gamma) * 30
     # init of constant
     mot_ids_v = actuation_model.mot_ids_v
     free_ids_v = actuation_model.free_ids_v
@@ -162,16 +175,30 @@ def inverseConstraintKinematicsSpeed(
     actuation_data.pinvJfree[:, :] = np.linalg.pinv(actuation_data.Jfree)
     actuation_data.dq_no[:nv_mot, :] = np.identity(nv_mot)
     actuation_data.dq_no[nv_mot:, :] = -actuation_data.pinvJfree @ actuation_data.Jmot
-    actuation_model.dq[mot_ids_v] = actuation_model.dq_no[:nv_mot, :]
-    actuation_model.dq[free_ids_v] = actuation_model.dq_no[nv_mot:, :]
+    actuation_data.dq[mot_ids_v] = actuation_data.dq_no[:nv_mot, :]
+    actuation_data.dq[free_ids_v] = actuation_data.dq_no[nv_mot:, :]
+
     # computation of the closed-loop jacobian
     actuation_data.Jf_closed[:, :] = (
         pin.computeFrameJacobian(model, data, q0, ideff, pin.LOCAL) @ actuation_data.dq
     )
-    actuation_data.vqmot[:] = np.linalg.pinv(actuation_data.Jf_closed) @ veff
-    actuation_data.vqfree[:] = (
-        -actuation_data.pinvJfree @ actuation_data.Jmot @ actuation_data.vqmot
-    )
+
+    if free_root_joint:
+        actuation_data.vqmot[6:] = (
+            np.linalg.pinv(actuation_data.Jf_closed[:, 6:]) @ veff
+        )
+        actuation_data.vqfree[:] = (
+            -actuation_data.pinvJfree
+            @ actuation_data.Jmot[:, 6:]
+            @ actuation_data.vqmot[6:]
+        ) + actuation_data.pinvJfree @ gamma
+    else:
+        actuation_data.vqmot[:] = np.linalg.pinv(actuation_data.Jf_closed[:, :]) @ veff
+        actuation_data.vqfree[:] = (
+            -actuation_data.pinvJfree
+            @ actuation_data.Jmot[:, :]
+            @ actuation_data.vqmot[:]
+        ) + actuation_data.pinvJfree @ gamma
     # reorder of vq
     actuation_data.vqmotfree[:nv_mot] = actuation_data.vqmot
     actuation_data.vqmotfree[nv_mot:] = actuation_data.vqfree
