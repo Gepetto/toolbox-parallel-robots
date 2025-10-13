@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="3">
   <name>toolbox-parallel-robots</name>
-  <version>1.0.0</version>
+  <version>1.1.0</version>
   <description>Set of tools to work with robots with bilateral constraints</description>
   <author email="vbatto@laas.fr">Virgile Batto</author>
   <author email="ldematteis@laas.fr">Ludovic De Matteis</author>
