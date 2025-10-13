@@ -10,6 +10,7 @@ set(PROJECT_URL "https://github.com/${PROJECT_ORG}/${PROJECT_NAME}")
 # Project configuration
 set(CUSTOM_HEADER_DIR ${PROJECT_NAME})
 set(PROJECT_COMPATIBILITY_VERSION AnyNewerVersion)
+set(PROJECT_USE_CMAKE_EXPORT TRUE)
 
 # Check if the submodule cmake have been initialized
 set(JRL_CMAKE_MODULES "${CMAKE_CURRENT_LIST_DIR}/cmake")
@@ -74,3 +75,11 @@ set(${PROJECT_NAME}_SLIDERS_PYTHON_FILES foo.py tk_robot_sliders.py
 foreach(python ${${PROJECT_NAME}_SLIDERS_PYTHON_FILES})
   python_install_on_site(${PY_NAME} sliders/${python})
 endforeach(python ${${PROJECT_NAME}_SLIDERS_PYTHON_FILES})
+
+if(NOT BUILD_STANDALONE_PYTHON_INTERFACE)
+  add_library(${PROJECT_NAME} INTERFACE)
+  install(
+    TARGETS ${PROJECT_NAME}
+    EXPORT ${TARGETS_EXPORT_NAME}
+    DESTINATION lib)
+endif()
