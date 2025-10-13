@@ -5,7 +5,7 @@ build-backend = "uv_build"
 [project]
 name = "toolbox-parallel-robots"
 version = "1.2.0"
-description = "Add your description here"
+description = "Set of tools to work with robots with bilateral constraints"
 readme = "README.md"
 authors = [
   {name = "Virgile Batto", email = "vbatto@laas.fr"},
