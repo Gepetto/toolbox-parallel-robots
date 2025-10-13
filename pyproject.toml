@@ -8,15 +8,15 @@ version = "1.1.0"
 description = "Add your description here"
 readme = "README.md"
 authors = [
-    { name = "Virgile Batto", email = "vbatto@laas.fr" },
-    { name = "Ludovic De Matteis", email = "ldematteis@laas.fr" }
+  {name = "Virgile Batto", email = "vbatto@laas.fr"},
+  {name = "Ludovic De Matteis", email = "ldematteis@laas.fr"}
 ]
 maintainers = [
-    { name = "Guilhem Saurel", email = "guilhem.saurel@laas.fr" }
+  {name = "Guilhem Saurel", email = "guilhem.saurel@laas.fr"}
 ]
 requires-python = ">=3.8"
 dependencies = [
-    "pin>=3.7.0",
+  "pin>=3.7.0"
 ]
 
 [tool.uv.build-backend]
