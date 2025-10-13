@@ -36,6 +36,7 @@ endif()
 
 # JRL-cmakemodule setup
 include("${JRL_CMAKE_MODULES}/base.cmake")
+include("${JRL_CMAKE_MODULES}/python.cmake")
 
 # Print initial message
 message(STATUS "${PROJECT_DESCRIPTION}, version ${PROJECT_VERSION}")
@@ -47,33 +48,29 @@ message(STATUS "All rights reserved.")
 compute_project_args(PROJECT_ARGS LANGUAGES CXX)
 project(${PROJECT_NAME} ${PROJECT_ARGS})
 
-if(BUILD_PYTHON_INTERFACE)
-  include("${JRL_CMAKE_MODULES}/python.cmake")
-  add_project_dependency(pinocchio REQUIRED)
-  string(REGEX REPLACE "-" "_" PY_NAME ${PROJECT_NAME})
+add_project_dependency(pinocchio REQUIRED)
+string(REGEX REPLACE "-" "_" PY_NAME ${PROJECT_NAME})
 
-  set(${PROJECT_NAME}_PYTHON_FILES
-      __init__.py
-      actuation_data.py
-      actuation_model.py
-      actuation.py
-      closures.py
-      constraints.py
-      forward_kinematics.py
-      freeze_joints.py
-      inverse_kinematics.py
-      inverse_dynamics.py
-      jacobian.py
-      mounting.py
-      projections.py)
-  foreach(python ${${PROJECT_NAME}_PYTHON_FILES})
-    python_install_on_site(${PY_NAME} ${python})
-  endforeach(python ${${PROJECT_NAME}_PYTHON_FILES})
+set(${PROJECT_NAME}_PYTHON_FILES
+    __init__.py
+    actuation_data.py
+    actuation_model.py
+    actuation.py
+    closures.py
+    constraints.py
+    forward_kinematics.py
+    freeze_joints.py
+    inverse_kinematics.py
+    inverse_dynamics.py
+    jacobian.py
+    mounting.py
+    projections.py)
+foreach(python ${${PROJECT_NAME}_PYTHON_FILES})
+  python_install_on_site(${PY_NAME} ${python})
+endforeach(python ${${PROJECT_NAME}_PYTHON_FILES})
 
-  set(${PROJECT_NAME}_SLIDERS_PYTHON_FILES foo.py tk_robot_sliders.py
-                                           tk_sliders_manager.py util_frames.py)
-  foreach(python ${${PROJECT_NAME}_SLIDERS_PYTHON_FILES})
-    python_install_on_site(${PY_NAME} sliders/${python})
-  endforeach(python ${${PROJECT_NAME}_SLIDERS_PYTHON_FILES})
-
-endif(BUILD_PYTHON_INTERFACE)
+set(${PROJECT_NAME}_SLIDERS_PYTHON_FILES foo.py tk_robot_sliders.py
+                                         tk_sliders_manager.py util_frames.py)
+foreach(python ${${PROJECT_NAME}_SLIDERS_PYTHON_FILES})
+  python_install_on_site(${PY_NAME} sliders/${python})
+endforeach(python ${${PROJECT_NAME}_SLIDERS_PYTHON_FILES})
