@@ -71,8 +71,8 @@ foreach(python ${${PROJECT_NAME}_PYTHON_FILES})
 endforeach(python ${${PROJECT_NAME}_PYTHON_FILES})
 
 set(${PROJECT_NAME}_SLIDERS_PYTHON_FILES
-      slider_generation.py tk_robot_sliders.py tk_sliders_manager.py
-      util_frames.py)
+    slider_generation.py tk_robot_sliders.py tk_sliders_manager.py
+    util_frames.py)
 foreach(python ${${PROJECT_NAME}_SLIDERS_PYTHON_FILES})
   python_install_on_site(${PY_NAME} sliders/${python})
 endforeach(python ${${PROJECT_NAME}_SLIDERS_PYTHON_FILES})
