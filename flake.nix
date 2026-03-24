@@ -3,6 +3,7 @@
 
   inputs = {
     gepetto.url = "github:gepetto/nix";
+    flakoboros.follows = "gepetto/flakoboros";
     gazebros2nix.follows = "gepetto/gazebros2nix";
     flake-parts.follows = "gepetto/flake-parts";
     nixpkgs.follows = "gepetto/nixpkgs";
@@ -13,24 +14,14 @@
 
   outputs =
     inputs:
-    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
-      systems = import inputs.systems;
-      imports = [ inputs.gepetto.flakeModule ];
-      perSystem =
-        {
-          lib,
-          pkgs,
-          self',
-          ...
-        }:
-        {
-          apps.default = {
-            type = "app";
-            program = pkgs.python3.withPackages (_: [ self'.packages.default ]);
-          };
-          packages = {
-            default = self'.packages.toolbox-parallel-robots;
-            toolbox-parallel-robots = pkgs.python3Packages.toolbox-parallel-robots.overrideAttrs {
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } (
+      { lib, ... }:
+      {
+        systems = import inputs.systems;
+        imports = [
+          inputs.gepetto.flakeModule
+          {
+            flakoboros.pyOverrideAttrs.toolbox-parallel-robots = _: _: {
               src = lib.fileset.toSource {
                 root = ./.;
                 fileset = lib.fileset.unions [
@@ -40,7 +31,8 @@
                 ];
               };
             };
-          };
-        };
-    };
+          }
+        ];
+      }
+    );
 }
