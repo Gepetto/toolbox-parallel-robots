@@ -199,11 +199,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1777168187,
-        "narHash": "sha256-7hkG1vydt+GY4AFi4L1YETxB2N8ug/jhkfho51APyBg=",
+        "lastModified": 1777745435,
+        "narHash": "sha256-oUPVASC3Oi+3tGC3SdhSFgzHUk6AjmBZ5JQJxRAZ1kY=",
         "owner": "gepetto",
         "repo": "nix",
-        "rev": "ebaa7b983e0a2a951e5ae32b6882fec63af2c0e2",
+        "rev": "6eec8ff3ae86893772fa850f6ab6018dd9ab3e5e",
         "type": "github"
       },
       "original": {
@@ -416,35 +416,7 @@
     },
     "root": {
       "inputs": {
-        "flake-parts": [
-          "gepetto",
-          "flake-parts"
-        ],
-        "flakoboros": [
-          "gepetto",
-          "flakoboros"
-        ],
-        "gazebros2nix": [
-          "gepetto",
-          "gazebros2nix"
-        ],
-        "gepetto": "gepetto",
-        "nix-ros-overlay": [
-          "gepetto",
-          "nix-ros-overlay"
-        ],
-        "nixpkgs": [
-          "gepetto",
-          "nixpkgs"
-        ],
-        "systems": [
-          "gepetto",
-          "systems"
-        ],
-        "treefmt-nix": [
-          "gepetto",
-          "treefmt-nix"
-        ]
+        "gepetto": "gepetto"
       }
     },
     "system-manager": {
